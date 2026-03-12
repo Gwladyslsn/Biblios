@@ -16,7 +16,8 @@
         "symfony/yaml": "7.4.*"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.66"
+        "symfony/maker-bundle": "^1.66",
+        "symfony/web-profiler-bundle": "7.4.*"
     },
     "config": {
         "allow-plugins": {
