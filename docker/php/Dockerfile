@@ -3,6 +3,7 @@ FROM php:8.3-fpm
 # Installation des dépendances système + extensions PHP en une seule couche
 RUN apt-get update && apt-get install -y \
         git \
+        libpq-dev \
         unzip \
         libicu-dev \
         libzip-dev \
@@ -11,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install \
         intl \
         pdo \
-        pdo_mysql \
+        pdo_pgsql \
         zip \
         opcache \
     && apt-get clean \
