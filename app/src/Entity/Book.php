@@ -40,6 +40,13 @@ class Book
     #[ORM\JoinColumn(nullable: false)]
     private ?Editor $editor = null;
 
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Author $author = null;
+
+    #[ORM\OneToOne(mappedBy: 'book', cascade: ['persist', 'remove'])]
+    private ?Comment $comments = null;
+
 
     public function getId(): ?int
     {
@@ -138,6 +145,40 @@ class Book
     public function setEditor(?Editor $editor): static
     {
         $this->editor = $editor;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?Author
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Author $author): static
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getComments(): ?Comment
+    {
+        return $this->comments;
+    }
+
+    public function setComments(?Comment $comments): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($comments === null && $this->comments !== null) {
+            $this->comments->setBook(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($comments !== null && $comments->getBook() !== $this) {
+            $comments->setBook($this);
+        }
+
+        $this->comments = $comments;
 
         return $this;
     }
