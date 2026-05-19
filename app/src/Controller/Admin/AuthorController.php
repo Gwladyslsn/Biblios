@@ -9,9 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/admin/author')]
 final class AuthorController extends AbstractController
 {
-    #[Route('/admin/author', name: 'app_admin_author')]
+    #[Route('/', name: 'app_admin_author')]
     public function index(): Response
     {
         return $this->render('admin/author/index.html.twig', [
@@ -25,8 +26,15 @@ final class AuthorController extends AbstractController
         $author = new Author();
         $form = $this->createForm(AuthorType::class, $author);
 
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->render('admin/author/new.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }
+
         return $this->render('admin/author/new.html.twig', [
-            'form' => $form,
-        ]);
+        'form' => $form->createView(),
+    ]);
     }
 }
