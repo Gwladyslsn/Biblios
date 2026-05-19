@@ -41,7 +41,7 @@ class Book
     private ?Editor $editor = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
-    #[ORM\JoinColumn(nullable: true)] //Remettre false
+    #[ORM\JoinColumn(nullable: false)] //Remettre false
     private ?Author $author = null;
 
     #[ORM\OneToOne(mappedBy: 'book', cascade: ['persist', 'remove'])]
